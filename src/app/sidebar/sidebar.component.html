@@ -1,0 +1,147 @@
+<div class="section">
+    <div class="row">
+        <div *ngIf="isSidebarVisible" class="col-md-3 sidepanel">
+          <h4 class="mb-4 sidepane-header" (click)="toggleSoccer()">
+            <i class="fas fa-futbol"></i>
+            Soccer
+            <span>
+              <i
+                class="fa"
+                [ngClass]="{
+                  'fa-chevron-down': isSoccerExpanded,
+                  'fa-chevron-right': !isSoccerExpanded
+                }"
+              ></i>
+            </span>
+          </h4>
+          <ul class="list-group" *ngIf="isSoccerExpanded">
+            <li
+              *ngFor="let tournament of tournaments; let i = index"
+              class="list-group-item"
+            >
+              <div
+                (click)="toggleTournament(i)"
+                class="d-flex justify-content-between align-items-center"
+                style="cursor: pointer;"
+              >
+                {{ tournament.name }}
+                <span>
+                  <i
+                    class="fa"
+                    [ngClass]="{
+                      'fa-chevron-down': expandedTournaments[i],
+                      'fa-chevron-right': !expandedTournaments[i]
+                    }"
+                  ></i>
+                </span>
+              </div>
+              <ul
+                class="list-group mt-2"
+                *ngIf="expandedTournaments[i]"
+                style="padding-left: 15px;"
+              >
+                <li
+                  *ngFor="let team of tournament.teams"
+                  class="list-group-item"
+                  (click)="selectTeam(team)"
+                >
+                  {{ team }}
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      <div class="col-md-9" style="margin-left: inherit;">
+        
+        <div class="header-container">
+          <div class="breadcrumb">
+            <span>SOCCER ></span>
+            <span>Bahrain ></span>
+            <span>Premier League</span>
+          </div>
+          <div class="match-date">
+            <p>{{ currentDate }} {{currentTime}}</p>
+          </div>
+          <div class="match-info">
+            <div class="match-teams">
+              <h3 id="team-info" *ngIf="selectedTeam">{{ selectedTeam }}</h3>
+            </div>
+            <div class="match-icons">
+              <i class="fas fa-cog"></i>
+              <i class="fas fa-bolt"></i>
+            </div>
+          </div>
+        </div>
+    <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Radar</th>
+              <th>Falcon</th>
+              <th>SinLimit</th>
+              <th>SinRisk</th>
+              <th>SinBet</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let option of tableData; let optionIndex = index">
+              <tr class="fw-bold bg-light">
+                <td>{{ option.option }}</td>
+                <td>{{ option.radar }}</td>
+                <td>{{ option.falcon }}</td>
+                <td>{{ option.sinLimit }}</td>
+                <td>{{ option.sinRisk }}</td>
+                <td>{{ option.sinBet }}</td>
+              </tr>
+              <ng-container *ngFor="let row of option.data; let rowIndex = index">
+                <tr>
+                  <td class="ps-4">{{ row.category }}</td>
+                  <td
+                    contenteditable="true" 
+                    tabindex="{{ getCellTabIndex(optionIndex, rowIndex, 0) }}"
+                    (keydown)="handleCellKeydown($event, optionIndex, rowIndex, 0)"
+                    (blur)="updateValue('radar', row, $event)"
+                  >
+                    {{ row.radar }}
+                  </td>
+                  <td
+                    contenteditable="true"
+                    tabindex="{{ getCellTabIndex(optionIndex, rowIndex, 1) }}"
+                    (keydown)="handleCellKeydown($event, optionIndex, rowIndex, 1)"
+                    (blur)="updateValue('falcon', row, $event)"
+                  >
+                    {{ row.falcon }}
+                  </td>
+                  <td
+                    contenteditable="true"
+                    tabindex="{{ getCellTabIndex(optionIndex, rowIndex, 2) }}"
+                    (keydown)="handleCellKeydown($event, optionIndex, rowIndex, 2)"
+                    (blur)="updateValue('sinLimit', row, $event)"
+                  >
+                    {{ row.sinLimit }}
+                  </td>
+                  <td
+                    contenteditable="true"
+                    tabindex="{{ getCellTabIndex(optionIndex, rowIndex, 3) }}"
+                    (keydown)="handleCellKeydown($event, optionIndex, rowIndex, 3)"
+                    (blur)="updateValue('sinRisk', row, $event)"
+                  >
+                    {{ row.sinRisk }}
+                  </td>
+                  <td
+                    contenteditable="true"
+                    tabindex="{{ getCellTabIndex(optionIndex, rowIndex, 4) }}"
+                    (keydown)="handleCellKeydown($event, optionIndex, rowIndex, 4)"
+                    (blur)="updateValue('sinBet', row, $event)"
+                  >
+                    {{ row.sinBet }}
+                  </td>
+                </tr>
+              </ng-container>
+            </ng-container>
+          </tbody>
+        </table>    
+      </div>
+      
+  </div>
+  
